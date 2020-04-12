@@ -1,0 +1,45 @@
+body {
+    background: #fff;
+}
+
+nav {
+    margin-bottom: 15px;
+}
+
+.card {
+    margin-bottom: 10px;
+}
+
+.card-img {
+    height: 200px;
+    background-position: center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.card-img_max {
+    height: 500px;
+}
+
+.card-img, .card-author, .card-date {
+    margin-bottom: 10px;
+}
+
+.card-btn {
+    display: flex;
+}
+
+.card-btn a {
+    margin-right: 10px;
+}
+
+.card-description {
+    white-space: pre-line;
+}
+
+
+.highlight {
+    background-color: yellow;
+}
