@@ -13,7 +13,7 @@
 
     <div class="row">
         @foreach($posts as $post)
-            <div class="col-6">
+            <div class="col-lg-6 col-sm-12">
                 <div class="card">
                     <div class="card-header"><h2>{{$post->short_title}}</h2></div>
 

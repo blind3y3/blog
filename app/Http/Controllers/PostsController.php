@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostsRequest;
 use App\Post;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
@@ -46,10 +47,10 @@ class PostsController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     * @param Request $request
+     * @param PostsRequest $request
      * @return RedirectResponse|Redirector
      */
-    public function store(Request $request)
+    public function store(PostsRequest $request)
     {
         $post = new Post();
         $post->title = $request->title;
@@ -93,11 +94,11 @@ class PostsController extends Controller
 
     /**
      * Update the specified resource in storage.
-     * @param Request $request
+     * @param PostsRequest $request
      * @param $id
      * @return RedirectResponse|Redirector
      */
-    public function update(Request $request, $id)
+    public function update(PostsRequest $request, $id)
     {
         $post = Post::find($id);
         $post->title = $request->title;
