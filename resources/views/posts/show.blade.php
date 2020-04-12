@@ -14,12 +14,16 @@
                     <div class="card-description jumbotron">{{$post->description}}</div>
                     <div class="card-btn">
                         <a href="{{URL::previous()}}" class="btn btn-outline-primary">Назад</a>
+                        @auth()
+                            @if(Auth::user()->id == $post->author_id)
                         <a href="{{route('posts.edit' , ['id' => $post->post_id])}}" class="btn btn-outline-secondary">Редактировать</a>
                         <form action="{{route('posts.destroy', ['id' => $post->post_id])}}" method="post" onsubmit="return confirm('Вы уверены, что хотите удалить пост?');">
                             @csrf
                             @method('delete')
                             <input type="submit" class="btn btn-outline-danger" value="Удалить">
                         </form>
+                            @endif
+                        @endauth
                     </div>
                 </div>
             </div>

@@ -14,6 +14,11 @@ use Illuminate\View\View;
 
 class PostsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except('index','show');
+    }
+
     /**
      * Display a listing of the resource.
      * @param Request $request
@@ -56,7 +61,7 @@ class PostsController extends Controller
         $post->title = $request->title;
         $post->short_title = Str::length($request->title) > 30 ? Str::limit($request->title, 30, '...') : $request->title; //да простят меня за несоблюдение PSR
         $post->description = $request->description;
-        $post->author_id = rand(1, 4);
+        $post->author_id = \Auth::user()->id;
         if ($request->file('img')) {
             $path = Storage::putFile('public', $request->file('img'));
             $url = Storage::url($path);
@@ -83,11 +88,15 @@ class PostsController extends Controller
     /**
      * Show the form for editing the specified resource.
      * @param $id
-     * @return Factory|View
+     * @return Factory|RedirectResponse|Redirector|View
      */
     public function edit($id)
     {
-        $post = Post::find($id);
+        $post = Post::findOrFail($id);
+
+        if ($post->author_id != \Auth::user()->id) {
+            return redirect('/')->withErrors('Вы не можете редактировать данный пост.');
+        }
 
         return view('posts.edit', compact('post'));
     }
@@ -101,6 +110,11 @@ class PostsController extends Controller
     public function update(PostsRequest $request, $id)
     {
         $post = Post::find($id);
+
+        if ($post->author_id != \Auth::user()->id) {
+            return redirect('/')->withErrors('Вы не можете редактировать данный пост.');
+        }
+
         $post->title = $request->title;
         $post->short_title = Str::length($request->title) > 30 ? Str::limit($request->title, 30, '...') : $request->title;
         $post->description = $request->description;
@@ -123,6 +137,10 @@ class PostsController extends Controller
     public function destroy($id)
     {
         $post = Post::find($id);
+        if ($post->author_id != \Auth::user()->id) {
+            return redirect('/')->withErrors('Вы не можете удалить данный пост.');
+        }
+
         $post->delete();
 
         return redirect('posts')->with('success', 'Пост успешно удалён.');
